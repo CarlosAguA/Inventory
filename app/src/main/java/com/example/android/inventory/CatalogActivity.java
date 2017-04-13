@@ -51,7 +51,8 @@ public class CatalogActivity extends AppCompatActivity implements
                 footWearEntry._ID,
                 footWearEntry.COLUMN_FOOTWEAR_NAME,
                 footWearEntry.COLUMN_FOOTWEAR_PRICE,
-                footWearEntry.COLUMN_FOOTWEAR_QUANTITY,};
+                footWearEntry.COLUMN_FOOTWEAR_QUANTITY,
+                footWearEntry.COLUMN_FOOTWEAR_SOLD_ITEMS};
 
         //This loader will execute the Content´s provider query method on a background thread.
         return new CursorLoader(this, footWearEntry.CONTENT_URI, projection,

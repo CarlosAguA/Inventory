@@ -1,7 +1,15 @@
 package com.example.android.inventory.data;
 
+/**
+ * Created by Paviliondm4 on 4/13/2017.
+ */
+
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,21 +17,15 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.example.android.inventory.data.InventoryContract.footWearEntry;
 import com.example.android.inventory.R;
-
-import static android.R.attr.order;
-
-/**
- * Created by Paviliondm4 on 4/9/2017.
- */
-
+import static android.R.attr.id;
 
 /** {@link InventoryCursorAdapter} is an adapter for a list or grid view
-        * that uses a {@link Cursor} of pet data as its data source. This adapter knows
-        * how to create list items for each row of pet data in the {@link Cursor}.
-        */
-public class InventoryCursorAdapter extends CursorAdapter{
+ * that uses a {@link Cursor} of pet data as its data source. This adapter knows
+ * how to create list items for each row of pet data in the {@link Cursor}.
+ */
+public class InventoryCursorAdapter extends CursorAdapter {
 
     public InventoryCursorAdapter (Context context, Cursor cursor){
         super(context, cursor, 0 );
@@ -38,7 +40,7 @@ public class InventoryCursorAdapter extends CursorAdapter{
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
         /*****************************************************************************************
          *                       Cast of the elements from the list_item
          *****************************************************************************************/
@@ -57,7 +59,7 @@ public class InventoryCursorAdapter extends CursorAdapter{
         /*****************************************************************************************
          *                  Get the Indices and values from the footwear table
          *****************************************************************************************/
-      // Extract properties from cursor
+        // Extract properties from cursor
         String piece_name = cursor.getString(cursor.getColumnIndexOrThrow
                 (InventoryContract.footWearEntry.COLUMN_FOOTWEAR_NAME));
 
@@ -67,37 +69,65 @@ public class InventoryCursorAdapter extends CursorAdapter{
         String piece_price = cursor.getString(cursor.getColumnIndexOrThrow
                 (InventoryContract.footWearEntry.COLUMN_FOOTWEAR_PRICE));
 
-        String sold_pieces = cursor.getString(cursor.getColumnIndexOrThrow
-               (InventoryContract.footWearEntry.COLUMN_FOOTWEAR_SOLD_ITEMS));
+        final String sold_pieces = cursor.getString(cursor.getColumnIndexOrThrow
+                (InventoryContract.footWearEntry.COLUMN_FOOTWEAR_SOLD_ITEMS));
 
         /*****************************************************************************************
          *               Populate the values from the footwear table on the view
          *****************************************************************************************/
-
-      //Show the information in the TextViews of the list Item.
+        //Show the information in the TextViews of the list Item.
         tv_name.setText(piece_name);
 
         tv_quantity.setText(piece_quantity);
 
         tv_price.setText( "$" + piece_price);
 
-        //tv_sold.setText(sold_pieces);
+        tv_sold.setText(sold_pieces);
+
+        final ContentResolver resolver = context.getContentResolver();
+
+        // Get information from the clicked item on the listView.
+        int position = cursor.getPosition() ;
+        final long id = getItemId(position);
 
         saleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i ("Adapter ", "Test: " + piece_quantity ) ;
+                Log.i ("Adapter ", "Test: " + sold_pieces ) ;
 
-                // Instantiate Content Values object
-                // PutContent value for quantity
-                // Put content value for sold
-                // Update
+                int quantity = Integer.parseInt(piece_quantity );
+                int soldItems = Integer.parseInt(sold_pieces) ;
 
+                if (quantity > 0){
+                    // Instantiate Content Values object
+                   ContentValues values = new ContentValues();
+
+                    quantity--;
+                    soldItems++;
+
+                    Log.i ("Adapter ", "Test: " + String.valueOf(quantity) ) ;
+                    Log.i ("Adapter ", "Test: " + String.valueOf(soldItems) ) ;
+
+                    values.put(InventoryContract.footWearEntry.COLUMN_FOOTWEAR_QUANTITY, String.valueOf(quantity));
+                    values.put(InventoryContract.footWearEntry.COLUMN_FOOTWEAR_SOLD_ITEMS, String.valueOf(soldItems) );
+
+                    //Checar que pasa aqui o que hace esto bien !
+                    Uri currentUri = ContentUris.withAppendedId(footWearEntry.CONTENT_URI , id);
+
+                    // Update
+                     resolver.update(
+                            currentUri,            // the user product content URI
+                            values,               // the columns to update
+                            null,
+                            null);
+
+                    context.getContentResolver().notifyChange(currentUri,null);
+
+                }
 
             }
         });
-
-
 
     }
 }
