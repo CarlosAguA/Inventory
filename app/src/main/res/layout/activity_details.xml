@@ -78,10 +78,8 @@
 
             </LinearLayout>
 
-
         </LinearLayout>
     </LinearLayout>
-
 
     <!-- Overview category -->
     <LinearLayout
@@ -124,12 +122,58 @@
                 style="@style/EditorFieldStyle" />
 
         </LinearLayout>
+
     </LinearLayout>
 
+    <!-- Buttons Parent Linear Layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order product"
+            android:layout_gravity="center"/>
 
+        <ImageButton
+            android:id="@+id/ib_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_call_black_24dp"
+            android:layout_gravity="center"/>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Photo"
+                android:layout_gravity="center"/>
+
+            <ImageButton
+                android:id="@+id/ib_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_a_photo_black_36dp"
+                android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    </LinearLayout>
 
 
 </LinearLayout>

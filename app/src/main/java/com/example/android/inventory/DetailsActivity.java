@@ -22,6 +22,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,6 +83,9 @@ public class DetailsActivity extends AppCompatActivity
 
     /* Global variable to track the quantity */
     int pieceQuantity ;
+
+    /*Image button to call supplier */
+    private ImageButton mButtonCall;
 
     /*************************** Pending for Foto / Peek *****************************************/
 
@@ -197,6 +202,9 @@ public class DetailsActivity extends AppCompatActivity
         mPhoneEditText = (EditText) findViewById(R.id.edit_supplier_phone);
         mWebpageEditText = (EditText) findViewById(R.id.edit_supplier_web_page);
 
+        /* Call supplier */
+        mButtonCall = (ImageButton) findViewById(R.id.ib_call) ;
+
         /** PENDING FOTO IMAGE ***********/
 
         //Register the edit Fields with the mTouchListener
@@ -250,6 +258,20 @@ public class DetailsActivity extends AppCompatActivity
                 }
 
                 mQuantityTextView.setText(String.valueOf(pieceQuantity));
+            }
+        });
+
+        mButtonCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                /*Retrieve the phone number saved on the db from the PhoneEditText*/
+                String phoneToCall = mPhoneEditText.getText().toString();
+
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:"+phoneToCall));
+                startActivity(intent);
+
             }
         });
 
