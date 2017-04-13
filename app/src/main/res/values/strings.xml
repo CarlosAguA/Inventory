@@ -10,6 +10,8 @@
     <!-- Label for overflow menu option that deletes all pet data in the app [CHAR LIMIT=20] -->
     <string name="action_delete_all_entries">Delete All Pets</string>
 
+    <string name="price_sign">$</string>
+
 <!-- Detail Activity -->
   <!-- App bar -->
     <!-- Label for editor menu option to save pet and leave editor [CHAR LIMIT=20] -->
@@ -84,5 +86,7 @@
 
     <!-- Text hint for phone field in the editor [CHAR LIMIT=30] -->
     <string name="hint_supplier_webpage">Webpage</string>
+
+
 
 </resources>

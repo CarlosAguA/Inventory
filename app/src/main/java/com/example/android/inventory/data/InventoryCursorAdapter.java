@@ -2,10 +2,12 @@ package com.example.android.inventory.data;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.inventory.R;
@@ -43,11 +45,14 @@ public class InventoryCursorAdapter extends CursorAdapter{
 
         TextView tv_price = (TextView) view.findViewById(R.id.price) ;
 
+        //Find Image view in order to track when the sale button is clicked.
+        ImageView saleButton = (ImageView) view.findViewById(R.id.im_view_sale_button);
+
         // Extract properties from cursor
         String piece_name = cursor.getString(cursor.getColumnIndexOrThrow
                 (InventoryContract.footWearEntry.COLUMN_FOOTWEAR_NAME));
 
-        String piece_quantity = cursor.getString(cursor.getColumnIndexOrThrow
+        final String piece_quantity = cursor.getString(cursor.getColumnIndexOrThrow
                 (InventoryContract.footWearEntry.COLUMN_FOOTWEAR_QUANTITY));
 
         String piece_price = cursor.getString(cursor.getColumnIndexOrThrow
@@ -58,7 +63,16 @@ public class InventoryCursorAdapter extends CursorAdapter{
 
         tv_quantity.setText(piece_quantity);
 
-        tv_price.setText(piece_price);
+        tv_price.setText( "$" + piece_price);
+
+        saleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i ("Adapter ", "Test: " + piece_quantity ) ;
+            }
+        });
+
+
 
     }
 }
