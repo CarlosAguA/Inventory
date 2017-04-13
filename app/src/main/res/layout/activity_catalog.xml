@@ -25,6 +25,6 @@
         android:layout_alignParentRight="true"
         app:backgroundTint="#FFE57F"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_add_circle_black_48dp" />
+        app:srcCompat="@drawable/ic_add_circle" />
 
 </RelativeLayout>

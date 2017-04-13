@@ -41,13 +41,15 @@ public class InventoryDbHelper extends SQLiteOpenHelper{
 
         // Create a String that contains the SQL statement to create the footwear table
         String SQL_ENTRIES_FOOTWEAR_TABLE =
-                "CREATE TABLE " + footWearEntry.TABLE_NAME + " (" + footWearEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                "CREATE TABLE "
+                        + footWearEntry.TABLE_NAME + " (" + footWearEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                         + footWearEntry.COLUMN_FOOTWEAR_NAME + " TEXT NOT NULL, "
                         + footWearEntry.COLUMN_FOOTWEAR_PRICE + " INTEGER NOT NULL , "
                         + footWearEntry.COLUMN_FOOTWEAR_QUANTITY + " INTEGER NOT NULL DEFAULT 0 , "
                         + footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_EMAIL + " TEXT , "
                         + footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_PHONE + " TEXT , "
                         + footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_WEBPAGE + " TEXT , "
+                        + footWearEntry.COLUMN_FOOTWEAR_SOLD_ITEMS  + " INTEGER NOT NULL DEFAULT 0 , "
                         + footWearEntry.COLUMN_FOOTWEAR_IMAGE + " BLOB );" ;
 
         // Execute the SQL statement

@@ -52,7 +52,6 @@ public class InventoryProvider extends ContentProvider{
         sUriMatcher.addURI(InventoryContract.CONTENT_AUTHORITY, InventoryContract.PATH_FOOTWEAR + "/#", FOOTWEAR_ID);
         sUriMatcher.addURI(InventoryContract.CONTENT_AUTHORITY, InventoryContract.PATH_FOOTWEAR , FOOTWEAR);
 
-
     }
 
     @Override
@@ -220,7 +219,6 @@ public class InventoryProvider extends ContentProvider{
 
         return rowsUpdated ;
     }
-
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {

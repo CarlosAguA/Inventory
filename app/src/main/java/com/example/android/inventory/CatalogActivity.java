@@ -154,6 +154,7 @@ public class CatalogActivity extends AppCompatActivity implements
         values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_EMAIL,"LEON@gmail.com");
         values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_PHONE , "442244");
         values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_WEBPAGE , "YUPI.COM" );
+        values.put(footWearEntry.COLUMN_FOOTWEAR_SOLD_ITEMS,"0" );
         values.put(footWearEntry.COLUMN_FOOTWEAR_IMAGE, "LETS SEE WHAT HAPPEN" ) ;
 
         //This sentence connects with the InventoryProvider. For that reason it has to be set up

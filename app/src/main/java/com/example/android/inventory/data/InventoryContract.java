@@ -63,6 +63,8 @@ public final class InventoryContract {
         public static final String COLUMN_FOOTWEAR_QUANTITY = "quantity" ;
         //Image of the footwear piece
         public static final String COLUMN_FOOTWEAR_IMAGE = "image" ;
+        //Sold pieces
+        public static final String COLUMN_FOOTWEAR_SOLD_ITEMS  = "sold" ;
 
         //Supplier´s phone
         public static final String COLUMN_FOOTWEAR_SUPPLIER_PHONE = "phone" ;

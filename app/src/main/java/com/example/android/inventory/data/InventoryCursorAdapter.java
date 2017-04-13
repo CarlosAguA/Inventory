@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.example.android.inventory.R;
 
+import static android.R.attr.order;
+
 /**
  * Created by Paviliondm4 on 4/9/2017.
  */
@@ -37,18 +39,25 @@ public class InventoryCursorAdapter extends CursorAdapter{
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-
+        /*****************************************************************************************
+         *                       Cast of the elements from the list_item
+         *****************************************************************************************/
         // Find fields to populate in inflated template
-        TextView tv_name = (TextView) view.findViewById(R.id.product_name);
+        TextView tv_name = (TextView) view.findViewById(R.id.product_name); // Product´s name
 
-        TextView tv_quantity = (TextView) view.findViewById(R.id.quantity);
+        TextView tv_price = (TextView) view.findViewById(R.id.price) ; // Product´s price
 
-        TextView tv_price = (TextView) view.findViewById(R.id.price) ;
+        TextView tv_quantity = (TextView) view.findViewById(R.id.quantity); // Product´s availabe quantity
+
+        TextView tv_sold = (TextView) view.findViewById(R.id.tv_sold); // Sold products
 
         //Find Image view in order to track when the sale button is clicked.
-        ImageView saleButton = (ImageView) view.findViewById(R.id.im_view_sale_button);
+        ImageView saleButton = (ImageView) view.findViewById(R.id.im_view_sale_button); // Shop button
 
-        // Extract properties from cursor
+        /*****************************************************************************************
+         *                  Get the Indices and values from the footwear table
+         *****************************************************************************************/
+      // Extract properties from cursor
         String piece_name = cursor.getString(cursor.getColumnIndexOrThrow
                 (InventoryContract.footWearEntry.COLUMN_FOOTWEAR_NAME));
 
@@ -58,17 +67,33 @@ public class InventoryCursorAdapter extends CursorAdapter{
         String piece_price = cursor.getString(cursor.getColumnIndexOrThrow
                 (InventoryContract.footWearEntry.COLUMN_FOOTWEAR_PRICE));
 
-        //Show the information in the TextViews of the list Item.
+        String sold_pieces = cursor.getString(cursor.getColumnIndexOrThrow
+               (InventoryContract.footWearEntry.COLUMN_FOOTWEAR_SOLD_ITEMS));
+
+        /*****************************************************************************************
+         *               Populate the values from the footwear table on the view
+         *****************************************************************************************/
+
+      //Show the information in the TextViews of the list Item.
         tv_name.setText(piece_name);
 
         tv_quantity.setText(piece_quantity);
 
         tv_price.setText( "$" + piece_price);
 
+        //tv_sold.setText(sold_pieces);
+
         saleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i ("Adapter ", "Test: " + piece_quantity ) ;
+
+                // Instantiate Content Values object
+                // PutContent value for quantity
+                // Put content value for sold
+                // Update
+
+
             }
         });
 

@@ -13,7 +13,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
@@ -23,16 +23,8 @@
                 android:fontFamily="sans-serif-medium"
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="#2B3D4D"
-                android:text="Product Name"/>
+                android:text="Product Name" />
 
-            <TextView
-                android:id="@+id/quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textColor="#AEB6BD"
-                android:text="Quantity"/>
 
             <TextView
                 android:id="@+id/price"
@@ -43,21 +35,83 @@
                 android:textColor="#AEB6BD"
                 android:text="Price"/>
 
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_quantity_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="#AEB6BD"
+                    android:text="Available"
+                    android:paddingRight="10dp"
+                    android:layout_gravity="center"/>
+
+
+                <TextView
+                    android:id="@+id/quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="#AEB6BD"
+                    android:text="8"
+                    android:paddingRight="10dp"
+                    android:layout_gravity="center"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_sold_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="#AEB6BD"
+                    android:text="Sold"
+                    android:paddingRight="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_sold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="#AEB6BD"
+                    android:text="10"
+                    android:paddingRight="15dp"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:id="@+id/im_view_sale_button"
                 android:src="@drawable/ic_add_shopping_cart"
-                android:layout_gravity="end"/>
+                android:focusable="false"
+                android:layout_gravity="center"/>
+
 
         </LinearLayout>
 

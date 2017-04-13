@@ -82,6 +82,7 @@ public class DetailsActivity extends AppCompatActivity
     /* Global variable to track the quantity */
     int pieceQuantity ;
 
+
     /*************************** Pending for Foto / Peek *****************************************/
 
     /***********************************************************************************************
@@ -344,6 +345,7 @@ public class DetailsActivity extends AppCompatActivity
             //finish();
             return;
         }
+
 
         ContentValues values = new ContentValues();
         values.put(footWearEntry.COLUMN_FOOTWEAR_NAME, footwearName);
