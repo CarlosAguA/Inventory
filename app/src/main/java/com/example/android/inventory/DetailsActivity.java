@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -76,16 +78,22 @@ public class DetailsActivity extends AppCompatActivity
     private EditText mWebpageEditText;
 
     /*Button to increase amount of products*/
-    private Button increaseProductButton ;
+     Button increaseProductButton ;
 
     /*Button to decrease amount of products*/
-    private Button decreaseProductButton ;
+     Button decreaseProductButton ;
 
     /* Global variable to track the quantity */
     int pieceQuantity ;
 
     /*Image button to call supplier */
-    private ImageButton mButtonCall;
+     ImageButton mButtonCall;
+
+    /* Open image from gallery */
+    private ImageButton mbuttonPhoto;
+
+    private static int RESULT_LOAD_IMG = 1;
+    String imgDecodableString;
 
     /*************************** Pending for Foto / Peek *****************************************/
 
@@ -205,6 +213,8 @@ public class DetailsActivity extends AppCompatActivity
         /* Call supplier */
         mButtonCall = (ImageButton) findViewById(R.id.ib_call) ;
 
+        mbuttonPhoto = (ImageButton) findViewById(R.id.ib_photo);
+
         /** PENDING FOTO IMAGE ***********/
 
         //Register the edit Fields with the mTouchListener
@@ -275,12 +285,44 @@ public class DetailsActivity extends AppCompatActivity
             }
         });
 
+        mbuttonPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create intent to Open Image applications like Gallery, Google Photos
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                // Start the Intent
+                startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
+
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+         Log.i (LOG_TAG, "Test: resultCode = " + resultCode) ;
+         Log.i (LOG_TAG, "Test: requestCode = " + requestCode ) ;
+        if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+                ImageView imgView = (ImageView) findViewById(R.id.iv_product);
+                // Set the Image in ImageView after decoding the String
+                imgView.setImageBitmap(BitmapFactory
+                        .decodeFile(picturePath));
+
+            }
     }
 
     /***********************************************************************************************
      *                         OPTIONS MENU RELATED METHODS
      **********************************************************************************************/
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_editor.xml file.
