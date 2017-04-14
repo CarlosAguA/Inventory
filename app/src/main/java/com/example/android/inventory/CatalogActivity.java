@@ -88,7 +88,7 @@ public class CatalogActivity extends AppCompatActivity implements
         });
 
 
-        // Find the ListView which will be populated with the pet data
+        // Find the ListView which will be populated with the product data
         ListView inventoryListView = (ListView) findViewById(R.id.lv);
 
         //Comment

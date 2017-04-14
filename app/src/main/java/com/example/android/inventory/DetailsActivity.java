@@ -42,7 +42,7 @@ public class DetailsActivity extends AppCompatActivity
      *********************************************************************************************/
     public static final String LOG_TAG = DetailsActivity.class.getSimpleName();
 
-    /* Loader ID for PET_LOADER */
+    /* Loader ID for FOOTWEAR_LOADER */
     private static final int FOOTWEAR_LOADER = 0;
 
     //Uri Identifier used to determine whether Adding or Updating Product
@@ -97,8 +97,8 @@ public class DetailsActivity extends AppCompatActivity
     public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
 
         if (currentUri != null) {
-            // Since the editor shows all pet attributes, define a projection that contains
-            // all columns from the pet table
+            // Since the editor shows all footwear attributes, define a projection that contains
+            // all columns from the footwear table
             String[] projection = {
                     footWearEntry._ID,
                     footWearEntry.COLUMN_FOOTWEAR_NAME,
@@ -168,7 +168,7 @@ public class DetailsActivity extends AppCompatActivity
             String supplierWebpage = cursor.getString(webpageColumnIndex);
             Uri imageUri= Uri.parse(cursor.getString(imageColumnIndex) ) ; /* Pending Image String */
 
-            //Set the retrieved info from the pets table in the editTexts
+            //Set the retrieved info from the footwear table in the editTexts
             mNameEditText.setText(pieceName);
             mPriceEditText.setText(String.valueOf(piecePrice));
             mQuantityTextView.setText(String.valueOf(pieceQuantity));
@@ -441,11 +441,11 @@ public class DetailsActivity extends AppCompatActivity
             // Show a toast message depending on whether or not the insertion was successful
             if (newUri == null) {
                 // If the new content URI is null, then there was an error with insertion.
-                Toast.makeText(this, getString(R.string.editor_insert_pet_failed),
+                Toast.makeText(this, getString(R.string.editor_insert_product_failed),
                         Toast.LENGTH_SHORT).show();
             } else {
                 // Otherwise, the insertion was successful and we can display a toast.
-                Toast.makeText(this, getString(R.string.editor_insert_pet_successful),
+                Toast.makeText(this, getString(R.string.editor_insert_product_successful),
                         Toast.LENGTH_SHORT).show();
             }
 
@@ -464,11 +464,11 @@ public class DetailsActivity extends AppCompatActivity
             //Show a toast message depending on whether or not the update was successful.
             if (rowsAffected == 0) {
                 // If no rows were affected, then there was an error with the update.
-                Toast.makeText(this, getString(R.string.editor_update_pet_failed),
+                Toast.makeText(this, getString(R.string.editor_update_product_failed),
                         Toast.LENGTH_SHORT).show();
             } else {
                 // Otherwise, the update was successful and we can display a toast.
-                Toast.makeText(this, getString(R.string.editor_update_pet_successful),
+                Toast.makeText(this, getString(R.string.editor_update_product_successful),
                         Toast.LENGTH_SHORT).show();
             }
 
@@ -562,11 +562,11 @@ public class DetailsActivity extends AppCompatActivity
         // Show a toast message depending on whether or not the delete was successful
         if (mRowsDeleted == 0 ){
             // If no rows were deleted, then there was an error with the delete.
-            Toast.makeText(this, R.string.editor_delete_pet_failed,
+            Toast.makeText(this, R.string.editor_delete_product_failed,
                     Toast.LENGTH_SHORT ).show();
         }else{
             // Otherwise, the delete was successful and we can display a toast.
-            Toast.makeText(this, R.string.editor_delete_pet_successful,
+            Toast.makeText(this, R.string.editor_delete_product_successful,
                     Toast.LENGTH_SHORT ).show();
         }
 
