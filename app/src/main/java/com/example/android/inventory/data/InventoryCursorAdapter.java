@@ -93,8 +93,6 @@ public class InventoryCursorAdapter extends CursorAdapter {
         saleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i ("Adapter ", "Test: " + piece_quantity ) ;
-                Log.i ("Adapter ", "Test: " + sold_pieces ) ;
 
                 int quantity = Integer.parseInt(piece_quantity );
                 int soldItems = Integer.parseInt(sold_pieces) ;
@@ -105,9 +103,6 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
                     quantity--;
                     soldItems++;
-
-                    Log.i ("Adapter ", "Test: " + String.valueOf(quantity) ) ;
-                    Log.i ("Adapter ", "Test: " + String.valueOf(soldItems) ) ;
 
                     values.put(InventoryContract.footWearEntry.COLUMN_FOOTWEAR_QUANTITY, String.valueOf(quantity));
                     values.put(InventoryContract.footWearEntry.COLUMN_FOOTWEAR_SOLD_ITEMS, String.valueOf(soldItems) );

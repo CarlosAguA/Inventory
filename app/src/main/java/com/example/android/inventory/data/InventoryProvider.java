@@ -95,7 +95,6 @@ public class InventoryProvider extends ContentProvider{
                 /*Projection :{ "_id" , "name" } */
                 //Just using id and name for query given by the programmer
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))} ;
-                Log.i(LOG_TAG, "Test: provider" + uri + selection)  ;
                 cursor = database.query(
                         footWearEntry.TABLE_NAME,  //FROM
                         projection,   //SELECT
@@ -136,7 +135,6 @@ public class InventoryProvider extends ContentProvider{
         long id = database.insert(footWearEntry.TABLE_NAME, null, values);
         // If the ID is -1, then the insertion failed. Log an error and return null.
         if (id == -1) {
-            Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
 
