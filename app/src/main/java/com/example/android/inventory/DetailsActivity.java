@@ -90,10 +90,11 @@ public class DetailsActivity extends AppCompatActivity
      ImageButton mButtonCall;
 
     /* Open image from gallery */
-    private ImageButton mbuttonPhoto;
+     ImageButton mbuttonPhoto;
 
     private static int RESULT_LOAD_IMG = 1;
-    String imgDecodableString;
+
+     Uri imageUri ;
 
     /*************************** Pending for Foto / Peek *****************************************/
 
@@ -153,7 +154,6 @@ public class DetailsActivity extends AppCompatActivity
             Log.i(LOG_TAG, "TEST : onLoadFinished() cursor null or < 1");
             return;
         }
-
 
         if (cursor.moveToFirst()) {
             Log.i(LOG_TAG, "TEST : OnLoadFinished() Uri retrieve data");
@@ -224,6 +224,7 @@ public class DetailsActivity extends AppCompatActivity
         mEmailEditText.setOnTouchListener(mTouchListener);
         mPhoneEditText.setOnTouchListener(mTouchListener);
         mWebpageEditText.setOnTouchListener(mTouchListener);
+        //Add on touch listener for the imagebutton
 
         /* Get the URI from the CatalogActivity  */
         Intent intent = getIntent();
@@ -305,9 +306,10 @@ public class DetailsActivity extends AppCompatActivity
          Log.i (LOG_TAG, "Test: resultCode = " + resultCode) ;
          Log.i (LOG_TAG, "Test: requestCode = " + requestCode ) ;
         if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
+            imageUri = data.getData();
+            Log.i(LOG_TAG, "URI : "+ imageUri) ;
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
-            Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+            Cursor cursor = getContentResolver().query(imageUri,filePathColumn, null, null, null);
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
@@ -400,10 +402,13 @@ public class DetailsActivity extends AppCompatActivity
         String supplierPhone = mPhoneEditText.getText().toString().trim();
         String supplierEmail = mEmailEditText.getText().toString().trim();
         String supplierWebpage = mWebpageEditText.getText().toString().trim();
+        String productImage = imageUri.toString();
 
         if (currentUri == null && TextUtils.isEmpty(footwearName) && TextUtils.isEmpty(footwearPrice)
                 && TextUtils.isEmpty(footwearQuantity) && TextUtils.isEmpty(supplierPhone)
-                && TextUtils.isEmpty(supplierEmail) && TextUtils.isEmpty(supplierWebpage)) {
+                && TextUtils.isEmpty(supplierEmail) && TextUtils.isEmpty(supplierWebpage)
+                && TextUtils.isEmpty(productImage) ) {
+            // Add && imageView is empty
             //Finish the activity if all fields are empty.
             //finish();
             return;
@@ -415,6 +420,7 @@ public class DetailsActivity extends AppCompatActivity
         values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_PHONE, supplierPhone);
         values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_EMAIL, supplierEmail);
         values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_WEBPAGE, supplierWebpage);
+        values.put(footWearEntry.COLUMN_FOOTWEAR_IMAGE, productImage);
 
         //MAybe do the same for price !
 
