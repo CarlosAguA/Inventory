@@ -61,40 +61,31 @@ public class DetailsActivity extends AppCompatActivity
 
     /*EditText field to enter the footwear's name*/
     private EditText mNameEditText;
-
     /*EditText field to enter the footwear's price*/
     private EditText mPriceEditText;
-
     /*TextView field to see available */
     private TextView mQuantityTextView;
-
     /*EditText field to enter the supplier's phone*/
     private EditText mPhoneEditText;
-
     /*EditText field to enter the supplier's email*/
     private EditText mEmailEditText;
-
     /*EditText field to enter the supplier's webpage*/
     private EditText mWebpageEditText;
-
     /*Button to increase amount of products*/
      Button increaseProductButton ;
-
     /*Button to decrease amount of products*/
      Button decreaseProductButton ;
-
     /* Global variable to track the quantity */
     int pieceQuantity ;
-
     /*Image button to call supplier */
      ImageButton mButtonCall;
-
     /* Open image from gallery */
      ImageButton mbuttonPhoto;
 
     private static int RESULT_LOAD_IMG = 1;
+    Uri imageUri ;
 
-     Uri imageUri ;
+    ImageView mProductImageView ;
 
     /*************************** Pending for Foto / Peek *****************************************/
 
@@ -115,7 +106,8 @@ public class DetailsActivity extends AppCompatActivity
                     footWearEntry.COLUMN_FOOTWEAR_QUANTITY,
                     footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_PHONE,
                     footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_EMAIL,
-                    footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_WEBPAGE};
+                    footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_WEBPAGE,
+                    footWearEntry.COLUMN_FOOTWEAR_IMAGE};
             // Pending Foto / Image column
 
             Log.i(LOG_TAG, "TEST : Uri return cursor");
@@ -165,6 +157,7 @@ public class DetailsActivity extends AppCompatActivity
             int phoneColumnIndex = cursor.getColumnIndex(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_PHONE);
             int emailColumnIndex = cursor.getColumnIndex(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_EMAIL);
             int webpageColumnIndex = cursor.getColumnIndex(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_WEBPAGE);
+            int imageColumnIndex = cursor.getColumnIndex(footWearEntry.COLUMN_FOOTWEAR_IMAGE) ;
 
             // Extract out the value from the Cursor for the given column index
             String pieceName = cursor.getString(nameColumnIndex);
@@ -173,7 +166,7 @@ public class DetailsActivity extends AppCompatActivity
             String supplierPhone = cursor.getString(phoneColumnIndex);
             String supplierEmail = cursor.getString(emailColumnIndex);
             String supplierWebpage = cursor.getString(webpageColumnIndex);
-            /* Pending Image String */
+            Uri imageUri= Uri.parse(cursor.getString(imageColumnIndex) ) ; /* Pending Image String */
 
             //Set the retrieved info from the pets table in the editTexts
             mNameEditText.setText(pieceName);
@@ -182,16 +175,14 @@ public class DetailsActivity extends AppCompatActivity
             mPhoneEditText.setText(supplierPhone);
             mEmailEditText.setText(supplierEmail);
             mWebpageEditText.setText(supplierWebpage);
-            /*Pending image setText */
+            mProductImageView.setImageURI(imageUri);  /*Pending image setText */
 
         }
 
     }
-
     /***********************************************************************************************
      *                            OnCreate Method()
      **********************************************************************************************/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -215,7 +206,7 @@ public class DetailsActivity extends AppCompatActivity
 
         mbuttonPhoto = (ImageButton) findViewById(R.id.ib_photo);
 
-        /** PENDING FOTO IMAGE ***********/
+        mProductImageView = (ImageView) findViewById(R.id.iv_product);  /** PENDING FOTO IMAGE ***********/
 
         //Register the edit Fields with the mTouchListener
         mNameEditText.setOnTouchListener(mTouchListener);
@@ -314,9 +305,8 @@ public class DetailsActivity extends AppCompatActivity
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
-                ImageView imgView = (ImageView) findViewById(R.id.iv_product);
                 // Set the Image in ImageView after decoding the String
-                imgView.setImageBitmap(BitmapFactory
+                mProductImageView.setImageBitmap(BitmapFactory
                         .decodeFile(picturePath));
 
             }
@@ -402,12 +392,20 @@ public class DetailsActivity extends AppCompatActivity
         String supplierPhone = mPhoneEditText.getText().toString().trim();
         String supplierEmail = mEmailEditText.getText().toString().trim();
         String supplierWebpage = mWebpageEditText.getText().toString().trim();
-        String productImage = imageUri.toString();
+
+        String productImage ;
+        if(imageUri != null){
+             productImage = imageUri.toString();
+        }else{
+           // imageUri =
+               //     Uri.
+                  //  parse("android.resource://com.example.android.inventory/drawable/no_image_placeholder");
+            productImage = "android.resource://com.example.android.inventory/drawable/no_image_placeholder" ;
+        }
 
         if (currentUri == null && TextUtils.isEmpty(footwearName) && TextUtils.isEmpty(footwearPrice)
                 && TextUtils.isEmpty(footwearQuantity) && TextUtils.isEmpty(supplierPhone)
-                && TextUtils.isEmpty(supplierEmail) && TextUtils.isEmpty(supplierWebpage)
-                && TextUtils.isEmpty(productImage) ) {
+                && TextUtils.isEmpty(supplierEmail) && TextUtils.isEmpty(supplierWebpage)) {
             // Add && imageView is empty
             //Finish the activity if all fields are empty.
             //finish();
@@ -420,9 +418,7 @@ public class DetailsActivity extends AppCompatActivity
         values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_PHONE, supplierPhone);
         values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_EMAIL, supplierEmail);
         values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_WEBPAGE, supplierWebpage);
-        values.put(footWearEntry.COLUMN_FOOTWEAR_IMAGE, productImage);
-
-        //MAybe do the same for price !
+        values.put(footWearEntry.COLUMN_FOOTWEAR_IMAGE,productImage);
 
         int quantity = 0;
         if (!TextUtils.isEmpty(footwearQuantity)) {
@@ -430,6 +426,12 @@ public class DetailsActivity extends AppCompatActivity
         }
 
         values.put(footWearEntry.COLUMN_FOOTWEAR_QUANTITY, quantity);
+
+       // if( productImage == null ){
+         //   Uri uri = Uri.parse("android.resource://com.example.android.inventory/drawable/no_image_placeholder");
+          //  productImage = uri.toString() ;
+        //}
+       // values.put(footWearEntry.COLUMN_FOOTWEAR_IMAGE, productImage);
 
         // Condition Add a product
         if (currentUri == null) {

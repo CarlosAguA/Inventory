@@ -50,7 +50,7 @@ public class InventoryDbHelper extends SQLiteOpenHelper{
                         + footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_PHONE + " TEXT , "
                         + footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_WEBPAGE + " TEXT , "
                         + footWearEntry.COLUMN_FOOTWEAR_SOLD_ITEMS  + " INTEGER NOT NULL DEFAULT 0 , "
-                        + footWearEntry.COLUMN_FOOTWEAR_IMAGE + " TEXT NOT NULL );" ;
+                        + footWearEntry.COLUMN_FOOTWEAR_IMAGE + " TEXT );" ;
 
         // Execute the SQL statement
         db.execSQL(SQL_ENTRIES_FOOTWEAR_TABLE);

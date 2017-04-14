@@ -148,6 +148,9 @@ public class CatalogActivity extends AppCompatActivity implements
     //Comment
     public void insertFootwear(){
 
+        Uri uri = Uri.parse("android.resource://com.example.android.inventory/drawable/no_image_placeholder");
+        String productImage = uri.toString() ;
+
         ContentValues values = new ContentValues();
         values.put(footWearEntry.COLUMN_FOOTWEAR_NAME, "Lacoste");
         values.put(footWearEntry.COLUMN_FOOTWEAR_PRICE, "50");
@@ -156,7 +159,7 @@ public class CatalogActivity extends AppCompatActivity implements
         values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_PHONE , "442244");
         values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_WEBPAGE , "YUPI.COM" );
         values.put(footWearEntry.COLUMN_FOOTWEAR_SOLD_ITEMS,"0" );
-        values.put(footWearEntry.COLUMN_FOOTWEAR_IMAGE, "LETS SEE WHAT HAPPEN" ) ;
+        values.put(footWearEntry.COLUMN_FOOTWEAR_IMAGE, productImage) ;
 
         //This sentence connects with the InventoryProvider. For that reason it has to be set up
         //correctly.
