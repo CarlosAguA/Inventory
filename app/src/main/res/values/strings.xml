@@ -8,6 +8,8 @@
 
     <string name="price_sign">$</string>
 
+    <string name="empty_list_view">Footwear List is Empty</string>
+
 <!-- Detail Activity -->
   <!-- App bar -->
     <!-- Label for editor menu option to save product and leave editor [CHAR LIMIT=20] -->
@@ -89,10 +91,8 @@
     <string name="add_image">Add Photo</string>
 
   <!-- Preview of the layout -->
-
     <string name="name_preview">Product´s name</string>
     <string name="price_preview">Product´s price</string>
-
     <string name="quantity_preview">10</string>
     <string name="quantity_info">Available</string>
     <string name="sold_info">Sold</string>

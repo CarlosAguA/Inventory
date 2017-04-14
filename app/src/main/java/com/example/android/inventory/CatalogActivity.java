@@ -36,6 +36,9 @@ public class CatalogActivity extends AppCompatActivity implements
 
     private static final int FOOTWEAR_LOADER = 0 ;
 
+    /***********************************************************************************************
+     *                            Loader Callback Methods
+     **********************************************************************************************/
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         // This is called when the last Cursor provided to onLoadFinished()
@@ -69,6 +72,9 @@ public class CatalogActivity extends AppCompatActivity implements
 
     }
 
+    /***********************************************************************************************
+     *                            OnCreate Method()
+     **********************************************************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +82,6 @@ public class CatalogActivity extends AppCompatActivity implements
 
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        ImageView saleButton = (ImageView) findViewById(R.id.im_view_sale_button) ;
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,9 +92,12 @@ public class CatalogActivity extends AppCompatActivity implements
             }
         });
 
-
         // Find the ListView which will be populated with the product data
         ListView inventoryListView = (ListView) findViewById(R.id.lv);
+
+        // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+        View emptyView = findViewById(R.id.empty_view);
+        inventoryListView.setEmptyView(emptyView);
 
         //Comment
         inventoryAdapter = new InventoryCursorAdapter(this, null) ;
@@ -100,7 +108,9 @@ public class CatalogActivity extends AppCompatActivity implements
         //Kick off loader
         getLoaderManager().initLoader(FOOTWEAR_LOADER, null, this) ;
 
-        //Comment
+        /*
+         * Method for opening the Details Activity - Product Info
+         */
         inventoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -118,8 +128,13 @@ public class CatalogActivity extends AppCompatActivity implements
         });
         
     }
+    /**********************************************************************************************
+     *                                      General Methods
+     *********************************************************************************************/
 
-    //Comment
+    /*
+     * Inflates OptionsMenu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
@@ -128,7 +143,9 @@ public class CatalogActivity extends AppCompatActivity implements
         return true;
     }
 
-    //Comment
+    /*
+     * Track if the button Insert Data was clicked in order to insert dummy data
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
@@ -141,7 +158,9 @@ public class CatalogActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    //Comment
+    /*
+     * Method that inserts Dummy data related to a product (footwear)
+     */
     public void insertFootwear(){
 
         Uri uri = Uri.parse("android.resource://com.example.android.inventory/drawable/no_image_placeholder");
@@ -152,7 +171,7 @@ public class CatalogActivity extends AppCompatActivity implements
         values.put(footWearEntry.COLUMN_FOOTWEAR_PRICE, "50");
         values.put(footWearEntry.COLUMN_FOOTWEAR_QUANTITY, "3");
         values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_EMAIL,"LEON@gmail.com");
-        values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_PHONE , "442244");
+        values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_PHONE , "5553201015");
         values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_WEBPAGE , "YUPI.COM" );
         values.put(footWearEntry.COLUMN_FOOTWEAR_SOLD_ITEMS,"0" );
         values.put(footWearEntry.COLUMN_FOOTWEAR_IMAGE, productImage) ;
