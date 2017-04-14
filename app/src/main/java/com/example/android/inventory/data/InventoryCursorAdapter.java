@@ -22,8 +22,8 @@ import com.example.android.inventory.R;
 import static android.R.attr.id;
 
 /** {@link InventoryCursorAdapter} is an adapter for a list or grid view
- * that uses a {@link Cursor} of pet data as its data source. This adapter knows
- * how to create list items for each row of pet data in the {@link Cursor}.
+ * that uses a {@link Cursor} of product data as its data source. This adapter knows
+ * how to create list items for each row of product data in the {@link Cursor}.
  */
 public class InventoryCursorAdapter extends CursorAdapter {
 

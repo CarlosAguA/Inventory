@@ -26,7 +26,6 @@ public final class InventoryContract {
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
-
     /* Inner class that defines the table contents of the footwear table */
     public static abstract class footWearEntry implements BaseColumns{
 
@@ -77,9 +76,4 @@ public final class InventoryContract {
 
 }
 
-/*
- Resources:
- Figuring out how to save and retrieve image in the database :
- 1.  Image is not retrieved from the DB
-    https://discussions.udacity.com/t/image-is-not-retrieved-from-the-db/229789/5
- */
+

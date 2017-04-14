@@ -3,10 +3,7 @@ package com.example.android.inventory.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import com.example.android.inventory.data.InventoryContract.footWearEntry;
-
-
 
 /**
  * Created by Paviliondm4 on 4/6/2017.
@@ -66,9 +63,3 @@ public class InventoryDbHelper extends SQLiteOpenHelper{
     }
 
 }
-/*
-SOURCES
-Image as a blob or as an integer ?
- 1. How to store(bitmap image) and retrieve image from sqlite database in android? [closed]
- http://stackoverflow.com/questions/11790104/how-to-storebitmap-image-and-retrieve-image-from-sqlite-database-in-android
- */

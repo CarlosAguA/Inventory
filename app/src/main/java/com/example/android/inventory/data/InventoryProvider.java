@@ -27,10 +27,10 @@ public class InventoryProvider extends ContentProvider{
 
     private InventoryDbHelper mDbHelper ;
 
-    /** URI matcher code for the content URI for the pets table */
+    /** URI matcher code for the content URI for the footwear table */
     private static final int FOOTWEAR = 100;
 
-    /** URI matcher code for the content URI for a single pet in the pets table */
+    /** URI matcher code for the content URI for a single product in the footwear table */
     private static final int FOOTWEAR_ID = 101;
 
     /** Tag for the log messages */
@@ -77,9 +77,9 @@ public class InventoryProvider extends ContentProvider{
         switch (match){
             case FOOTWEAR:
                 // use the query() method to retrieve at least one column of data.
-                // For the PETS code, query the pets table directly with the given
+                // For the FOOTWEAR code, query the footwear table directly with the given
                 // projection, selection, selection arguments, and sort order. The cursor
-                // could contain multiple rows of the pets table.
+                // could contain multiple rows of the footwear table.
                 cursor = database.query(
                         footWearEntry.TABLE_NAME,
                         projection,
@@ -90,7 +90,7 @@ public class InventoryProvider extends ContentProvider{
                         sortOrder);
                 break ;
             case FOOTWEAR_ID:
-                // SQLITE statement: SELECT id, name FROM pets WHERE _id=5 ;
+                // SQLITE statement: SELECT id, name FROM footwear WHERE _id=5 ;
                 selection = footWearEntry._ID + "=?" ;
                 /*Projection :{ "_id" , "name" } */
                 //Just using id and name for query given by the programmer
@@ -167,7 +167,7 @@ public class InventoryProvider extends ContentProvider{
             case FOOTWEAR:
                 return updateProduct(uri, contentValues, selection, selectionArgs);
             case FOOTWEAR_ID:
-                // For the PET_ID code, extract out the ID from the URI,
+                // For the FOOTWEAR_ID code, extract out the ID from the URI,
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
                 selection = footWearEntry._ID + "=?";
@@ -179,7 +179,7 @@ public class InventoryProvider extends ContentProvider{
     }
 
     private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        // If the {@link PetEntry#COLUMN_PET_NAME} key is present,
+        // If the {@link footwearEntry#COLUMN_FOOTWEAR_NAME} key is present,
         // check that the name value is not null.
         if (values.containsKey(footWearEntry.COLUMN_FOOTWEAR_NAME)) {
             String name = values.getAsString(footWearEntry.COLUMN_FOOTWEAR_NAME);
@@ -188,17 +188,15 @@ public class InventoryProvider extends ContentProvider{
             }
         }
 
-        // If the {@link PetEntry#COLUMN_PET_WEIGHT} key is present,
-        // check that the weight value is valid.
+        // If the {@link Entry#COLUMN_FOOTWEAR_QUANTITY} key is present,
+        // check that the quantity value is valid.
         if (values.containsKey(footWearEntry.COLUMN_FOOTWEAR_QUANTITY)) {
-            // Check that the weight is greater than or equal to 0 kg
+            // Check that the quantity is greater than or equal to 0 pieces
             Integer quantity = values.getAsInteger(footWearEntry.COLUMN_FOOTWEAR_QUANTITY);
             if (quantity != null && quantity < 0) {
-                throw new IllegalArgumentException("Footwear requires valid weight");
+                throw new IllegalArgumentException("Footwear requires valid quantity");
             }
         }
-
-        // No need to check the breed, any value is valid (including null).
 
         // If there are no values to update, then don't try to update the database
         if (values.size() == 0) {

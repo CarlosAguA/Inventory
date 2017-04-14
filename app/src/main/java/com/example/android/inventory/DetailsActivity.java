@@ -81,18 +81,16 @@ public class DetailsActivity extends AppCompatActivity
      ImageButton mButtonCall;
     /* Open image from gallery */
      ImageButton mbuttonPhoto;
-
+    /* integer to get Activity result when choosing image from gallery*/
     private static int RESULT_LOAD_IMG = 1;
+    /* Global image Uri assigned when uri from a image in gallery is retrieved*/
     Uri imageUri ;
-
+   /* ImageView to populate product image */
     ImageView mProductImageView ;
-
-    /*************************** Pending for Foto / Peek *****************************************/
 
     /***********************************************************************************************
      *                            Loader Callback Methods
      **********************************************************************************************/
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
 
@@ -108,7 +106,6 @@ public class DetailsActivity extends AppCompatActivity
                     footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_EMAIL,
                     footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_WEBPAGE,
                     footWearEntry.COLUMN_FOOTWEAR_IMAGE};
-            // Pending Foto / Image column
 
             Log.i(LOG_TAG, "TEST : Uri return cursor");
             // This loader will execute the ContentProvider's query method on a background thread
@@ -134,7 +131,6 @@ public class DetailsActivity extends AppCompatActivity
         mEmailEditText.setText("");
         mPhoneEditText.setText("");
         mWebpageEditText.setText("");
-        /* Image picture setTExt */
 
     }
 
@@ -200,12 +196,11 @@ public class DetailsActivity extends AppCompatActivity
         mEmailEditText = (EditText) findViewById(R.id.edit_supplier_email);
         mPhoneEditText = (EditText) findViewById(R.id.edit_supplier_phone);
         mWebpageEditText = (EditText) findViewById(R.id.edit_supplier_web_page);
-
         /* Call supplier */
         mButtonCall = (ImageButton) findViewById(R.id.ib_call) ;
 
+        /*Product Image */
         mbuttonPhoto = (ImageButton) findViewById(R.id.ib_photo);
-
         mProductImageView = (ImageView) findViewById(R.id.iv_product);  /** PENDING FOTO IMAGE ***********/
 
         //Register the edit Fields with the mTouchListener
@@ -215,7 +210,10 @@ public class DetailsActivity extends AppCompatActivity
         mEmailEditText.setOnTouchListener(mTouchListener);
         mPhoneEditText.setOnTouchListener(mTouchListener);
         mWebpageEditText.setOnTouchListener(mTouchListener);
-        //Add on touch listener for the imagebutton
+
+        //Register the Buttons with the mTouchListener
+        increaseProductButton.setOnTouchListener(mTouchListener);
+        decreaseProductButton.setOnTouchListener(mTouchListener);
 
         /* Get the URI from the CatalogActivity  */
         Intent intent = getIntent();
@@ -263,6 +261,7 @@ public class DetailsActivity extends AppCompatActivity
             }
         });
 
+        /* Click Listener for Calling Supplier button - Order more */
         mButtonCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -271,12 +270,13 @@ public class DetailsActivity extends AppCompatActivity
                 String phoneToCall = mPhoneEditText.getText().toString();
 
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:"+phoneToCall));
+                intent.setData(Uri.parse("tel:" + phoneToCall));
                 startActivity(intent);
 
             }
         });
 
+        /*Click Listener for Adding product image */
         mbuttonPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -291,6 +291,10 @@ public class DetailsActivity extends AppCompatActivity
 
     }
 
+    /*
+    * Get the result from opening the image gallery if a image is chosen
+    * and set it on an ImageView
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -337,7 +341,6 @@ public class DetailsActivity extends AppCompatActivity
             // Respond to a click on the "Delete" menu option
            /* This case is only accesible if the Activity is on edit mode but not on add mode */
             case R.id.action_delete:
-                //add strng for product deleted
                 showDeleteConfirmationDialog();
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar
@@ -395,20 +398,17 @@ public class DetailsActivity extends AppCompatActivity
 
         String productImage ;
         if(imageUri != null){
+
              productImage = imageUri.toString();
+
         }else{
-           // imageUri =
-               //     Uri.
-                  //  parse("android.resource://com.example.android.inventory/drawable/no_image_placeholder");
+
             productImage = "android.resource://com.example.android.inventory/drawable/no_image_placeholder" ;
         }
 
         if (currentUri == null && TextUtils.isEmpty(footwearName) && TextUtils.isEmpty(footwearPrice)
                 && TextUtils.isEmpty(footwearQuantity) && TextUtils.isEmpty(supplierPhone)
                 && TextUtils.isEmpty(supplierEmail) && TextUtils.isEmpty(supplierWebpage)) {
-            // Add && imageView is empty
-            //Finish the activity if all fields are empty.
-            //finish();
             return;
         }
 
@@ -426,12 +426,6 @@ public class DetailsActivity extends AppCompatActivity
         }
 
         values.put(footWearEntry.COLUMN_FOOTWEAR_QUANTITY, quantity);
-
-       // if( productImage == null ){
-         //   Uri uri = Uri.parse("android.resource://com.example.android.inventory/drawable/no_image_placeholder");
-          //  productImage = uri.toString() ;
-        //}
-       // values.put(footWearEntry.COLUMN_FOOTWEAR_IMAGE, productImage);
 
         // Condition Add a product
         if (currentUri == null) {
@@ -547,7 +541,7 @@ public class DetailsActivity extends AppCompatActivity
     }
 
     /**
-     * Perform the deletion of the product in the database.
+     * Perform product deleting in the database.
      */
     private void deleteProduct() {
         // Deletes the product that match the selection criteria

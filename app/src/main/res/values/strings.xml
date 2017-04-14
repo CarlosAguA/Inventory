@@ -1,14 +1,10 @@
 <resources>
     <string name="app_name">Inventory</string>
 
-
 <!-- Catalog Activity -->
 
     <!-- Label for overflow menu option that inserts fake footwear data into the app [CHAR LIMIT=20] -->
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
-
-    <!-- Label for overflow menu option that deletes all footwear data in the app [CHAR LIMIT=20] -->
-    <string name="action_delete_all_entries">Delete All Footwear</string>
 
     <string name="price_sign">$</string>
 
@@ -87,6 +83,19 @@
     <!-- Text hint for phone field in the editor [CHAR LIMIT=30] -->
     <string name="hint_supplier_webpage">Webpage</string>
 
+  <!-- Category product image -->
+    <string name="product_image">Product Image</string>
 
+    <string name="add_image">Add Photo</string>
+
+  <!-- Preview of the layout -->
+
+    <string name="name_preview">Product´s name</string>
+    <string name="price_preview">Product´s price</string>
+
+    <string name="quantity_preview">10</string>
+    <string name="quantity_info">Available</string>
+    <string name="sold_info">Sold</string>
+    <string name="sold_preview">5</string>
 
 </resources>
