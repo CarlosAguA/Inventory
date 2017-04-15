@@ -131,56 +131,5 @@ public class CatalogActivity extends AppCompatActivity implements
     /**********************************************************************************************
      *                                      General Methods
      *********************************************************************************************/
-
-    /*
-     * Inflates OptionsMenu
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu options from the res/menu/menu_catalog.xml file.
-        // This adds menu items to the app bar.
-        getMenuInflater().inflate(R.menu.menu_catalog, menu);
-        return true;
-    }
-
-    /*
-     * Track if the button Insert Data was clicked in order to insert dummy data
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // User clicked on a menu option in the app bar overflow menu
-        switch (item.getItemId()) {
-            // Respond to a click on the "Insert dummy data" menu option
-            case R.id.action_insert_dummy_data:
-                insertFootwear();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    /*
-     * Method that inserts Dummy data related to a product (footwear)
-     */
-    public void insertFootwear(){
-
-        Uri uri = Uri.parse("android.resource://com.example.android.inventory/drawable/no_image_placeholder");
-        String productImage = uri.toString() ;
-
-        ContentValues values = new ContentValues();
-        values.put(footWearEntry.COLUMN_FOOTWEAR_NAME, "Lacoste");
-        values.put(footWearEntry.COLUMN_FOOTWEAR_PRICE, "50");
-        values.put(footWearEntry.COLUMN_FOOTWEAR_QUANTITY, "3");
-        values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_EMAIL,"LEON@gmail.com");
-        values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_PHONE , "5553201015");
-        values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_WEBPAGE , "YUPI.COM" );
-        values.put(footWearEntry.COLUMN_FOOTWEAR_SOLD_ITEMS,"0" );
-        values.put(footWearEntry.COLUMN_FOOTWEAR_IMAGE, productImage) ;
-
-        //This sentence connects with the InventoryProvider. For that reason it has to be set up
-        //correctly.
-        Uri newUri = getContentResolver().insert(footWearEntry.CONTENT_URI,values);
-
-    }
-
     }
 
