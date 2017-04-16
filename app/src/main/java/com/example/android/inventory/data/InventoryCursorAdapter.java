@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.example.android.inventory.data.InventoryContract.footWearEntry;
 import com.example.android.inventory.R;
 
-
 /** {@link InventoryCursorAdapter} is an adapter for a list or grid view
  * that uses a {@link Cursor} of product data as its data source. This adapter knows
  * how to create list items for each row of product data in the {@link Cursor}.

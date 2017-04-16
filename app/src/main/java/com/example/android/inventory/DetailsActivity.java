@@ -1,7 +1,6 @@
 package com.example.android.inventory;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
@@ -10,7 +9,6 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
@@ -21,7 +19,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -33,8 +30,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.android.inventory.data.InventoryContract.footWearEntry;
-
-import static android.R.attr.name;
 
 
 public class DetailsActivity extends AppCompatActivity
