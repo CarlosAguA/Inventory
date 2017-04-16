@@ -15,10 +15,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,12 +32,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.android.inventory.data.InventoryContract.footWearEntry;
-
-import static android.R.attr.button;
-import static android.app.Activity.RESULT_OK;
-import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 
 public class DetailsActivity extends AppCompatActivity
@@ -96,7 +89,7 @@ public class DetailsActivity extends AppCompatActivity
     /* ImageView to populate product image */
      ImageView mProductImageView ;
     /* Text view for saying the user about image button state*/
-    TextView mFotoTextView ;
+     TextView mFotoTextView ;
 
 
     /***********************************************************************************************

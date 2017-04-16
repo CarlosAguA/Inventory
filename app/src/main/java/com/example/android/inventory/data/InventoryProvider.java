@@ -7,16 +7,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.CancellationSignal;
-import android.support.annotation.Nullable;
-import android.util.Log;
-
-import java.net.URI;
-import java.security.Provider;
-
-import static android.icu.util.MeasureUnit.FOOT;
-import static com.example.android.inventory.data.InventoryContract.CONTENT_AUTHORITY;
-
 import com.example.android.inventory.data.InventoryContract.footWearEntry;
 
 /**

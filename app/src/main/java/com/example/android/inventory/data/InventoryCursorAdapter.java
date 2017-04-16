@@ -10,7 +10,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.android.inventory.data.InventoryContract.footWearEntry;
 import com.example.android.inventory.R;
-import static android.R.attr.id;
+
 
 /** {@link InventoryCursorAdapter} is an adapter for a list or grid view
  * that uses a {@link Cursor} of product data as its data source. This adapter knows
@@ -54,7 +53,7 @@ public class InventoryCursorAdapter extends CursorAdapter {
         TextView tv_sold = (TextView) view.findViewById(R.id.tv_sold); // Sold products
 
         //Find Image view in order to track when the sale button is clicked.
-        ImageView saleButton = (ImageView) view.findViewById(R.id.im_view_sale_button); // Shop button
+        ImageView saleButton = (ImageView) view.findViewById(R.id.im_view_sale_button); // Buy button
 
         /*****************************************************************************************
          *                  Get the Indices and values from the footwear table
@@ -101,13 +100,13 @@ public class InventoryCursorAdapter extends CursorAdapter {
                     // Instantiate Content Values object
                    ContentValues values = new ContentValues();
 
-                    quantity--;
-                    soldItems++;
+                    quantity--; //Decrease quantity
+                    soldItems++; //Increase Sold items
 
                     values.put(InventoryContract.footWearEntry.COLUMN_FOOTWEAR_QUANTITY, String.valueOf(quantity));
                     values.put(InventoryContract.footWearEntry.COLUMN_FOOTWEAR_SOLD_ITEMS, String.valueOf(soldItems) );
 
-                    //Checar que pasa aqui o que hace esto bien !
+                    //Get the uri from the list_item to be updated
                     Uri currentUri = ContentUris.withAppendedId(footWearEntry.CONTENT_URI , id);
 
                     // Update
