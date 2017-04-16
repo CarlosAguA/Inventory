@@ -52,6 +52,8 @@
 
     <string name="editor_update_product_failed">Update product failed</string>
 
+    <string name="input_validation_name">Name Field is required.</string>
+
     <!-- Title for the activity to add a new product [CHAR LIMIT=20] -->
     <string name="editor_activity_title_edit_product">Edit a Product</string>
 
