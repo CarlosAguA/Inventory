@@ -1,5 +1,6 @@
 package com.example.android.inventory;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -7,12 +8,17 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,6 +38,8 @@ import android.widget.Toast;
 import com.example.android.inventory.data.InventoryContract.footWearEntry;
 
 import static android.R.attr.button;
+import static android.app.Activity.RESULT_OK;
+import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 
 public class DetailsActivity extends AppCompatActivity
@@ -76,17 +84,20 @@ public class DetailsActivity extends AppCompatActivity
     /*Button to decrease amount of products*/
      Button decreaseProductButton ;
     /* Global variable to track the quantity */
-    int pieceQuantity ;
+     int pieceQuantity ;
     /*Image button to call supplier */
      ImageButton mButtonCall;
     /* Open image from gallery */
      ImageButton mbuttonPhoto;
     /* integer to get Activity result when choosing image from gallery*/
-    private static int RESULT_LOAD_IMG = 1;
+     private static int RESULT_LOAD_IMG = 1;
     /* Global image Uri assigned when uri from a image in gallery is retrieved*/
-    Uri imageUri ;
-   /* ImageView to populate product image */
-    ImageView mProductImageView ;
+     Uri imageUri ;
+    /* ImageView to populate product image */
+     ImageView mProductImageView ;
+    /* Text view for saying the user about image button state*/
+    TextView mFotoTextView ;
+
 
     /***********************************************************************************************
      *                            Loader Callback Methods
@@ -107,7 +118,6 @@ public class DetailsActivity extends AppCompatActivity
                     footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_WEBPAGE,
                     footWearEntry.COLUMN_FOOTWEAR_IMAGE};
 
-            Log.i(LOG_TAG, "TEST : Uri return cursor");
             // This loader will execute the ContentProvider's query method on a background thread
             return new CursorLoader(this,   // Parent activity context
                     currentUri,         // Query the content URI for the current product
@@ -117,14 +127,12 @@ public class DetailsActivity extends AppCompatActivity
                     null);                  // Default sort order
         }
 
-        Log.i(LOG_TAG, "TEST : Uri return null");
         return null;
     }
 
     @Override
     public void onLoaderReset(Loader loader) {
 
-        Log.i(LOG_TAG, "TEST : OnLoaderReset() ");
         mNameEditText.setText("");
         mPriceEditText.setText("");
         mQuantityTextView.setText("");
@@ -139,12 +147,10 @@ public class DetailsActivity extends AppCompatActivity
 
         // Bail early if the cursor is null or there is less than 1 row in the cursor
         if (cursor == null || cursor.getCount() < 1) {
-            Log.i(LOG_TAG, "TEST : onLoadFinished() cursor null or < 1");
             return;
         }
 
         if (cursor.moveToFirst()) {
-            Log.i(LOG_TAG, "TEST : OnLoadFinished() Uri retrieve data");
 
             // Find the columns of footwear attributes that we're interested in
             int nameColumnIndex = cursor.getColumnIndex(footWearEntry.COLUMN_FOOTWEAR_NAME);
@@ -162,7 +168,7 @@ public class DetailsActivity extends AppCompatActivity
             String supplierPhone = cursor.getString(phoneColumnIndex);
             String supplierEmail = cursor.getString(emailColumnIndex);
             String supplierWebpage = cursor.getString(webpageColumnIndex);
-            Uri imageUri= Uri.parse(cursor.getString(imageColumnIndex) ) ; /* Pending Image String */
+            imageUri= Uri.parse(cursor.getString(imageColumnIndex) ) ;
 
             //Set the retrieved info from the footwear table in the editTexts
             mNameEditText.setText(pieceName);
@@ -171,7 +177,7 @@ public class DetailsActivity extends AppCompatActivity
             mPhoneEditText.setText(supplierPhone);
             mEmailEditText.setText(supplierEmail);
             mWebpageEditText.setText(supplierWebpage);
-            mProductImageView.setImageURI(imageUri);  /*Pending image setText */
+            mProductImageView.setImageURI(imageUri);
 
         }
 
@@ -201,7 +207,8 @@ public class DetailsActivity extends AppCompatActivity
 
         /*Product Image */
         mbuttonPhoto = (ImageButton) findViewById(R.id.ib_photo);
-        mProductImageView = (ImageView) findViewById(R.id.iv_product);  /** PENDING FOTO IMAGE ***********/
+        mProductImageView = (ImageView) findViewById(R.id.iv_product);
+        mFotoTextView = (TextView) findViewById(R.id.tv_foto);
 
         //Register the edit Fields with the mTouchListener
         mNameEditText.setOnTouchListener(mTouchListener);
@@ -229,9 +236,7 @@ public class DetailsActivity extends AppCompatActivity
 
         } else {
 
-            Log.i(LOG_TAG, "TEST: " + currentUri.toString());
             setTitle(R.string.editor_activity_title_edit_product);
-            Log.i(LOG_TAG, "Test" + currentUri.toString());
 
         }
 
@@ -280,29 +285,30 @@ public class DetailsActivity extends AppCompatActivity
         mbuttonPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Create intent to Open Image applications like Gallery, Google Photos
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                // Start the Intent
-                startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
 
+                if (isStoragePermissionGranted()){
+                    Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    // Start the Intent
+                    startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
+                }else{
+                    mbuttonPhoto.setEnabled(false);
+                }
             }
         });
 
     }
-
+    /***********************************************************************************************
+     *              ACCESING GALLERY AND CHECKING PERMISSIONS METHODS
+     **********************************************************************************************/
     /*
-    * Get the result from opening the image gallery if a image is chosen
-    * and set it on an ImageView
+     * Get the result from opening the image gallery if a image is chosen and set it on an ImageView
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-         Log.i (LOG_TAG, "Test: resultCode = " + resultCode) ;
-         Log.i (LOG_TAG, "Test: requestCode = " + requestCode ) ;
         if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data) {
             imageUri = data.getData();
-            Log.i(LOG_TAG, "URI : "+ imageUri) ;
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
             Cursor cursor = getContentResolver().query(imageUri,filePathColumn, null, null, null);
             cursor.moveToFirst();
@@ -312,8 +318,46 @@ public class DetailsActivity extends AppCompatActivity
                 // Set the Image in ImageView after decoding the String
                 mProductImageView.setImageBitmap(BitmapFactory
                         .decodeFile(picturePath));
+        }
+    }
 
+    /*  Method for  requesting permission and check out the SDK Version */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+            Log.v(LOG_TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
+            //resume tasks needing this permission
+            // permission was granted, yay! Do the
+            // read-related task you need to do.
+            // Create intent to Open Image applications like Gallery, Google Photos
+            Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            // Start the Intent
+            startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
+        }else{
+            mbuttonPhoto.setVisibility(View.GONE);
+            mFotoTextView.setText(R.string.denied_access_gallery);
+        }
+    }
+
+    /* Method boolean to check if permission was granted, denied or is already granted */
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v(LOG_TAG,"Permission is granted");
+                return true;
+            } else {
+                Log.v(LOG_TAG,"Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                return false;
             }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v(LOG_TAG,"Permission is granted");
+            return true;
+        }
     }
 
     /***********************************************************************************************
@@ -435,12 +479,10 @@ public class DetailsActivity extends AppCompatActivity
             // Show a toast message depending on whether or not the insertion was successful
             if (newUri == null) {
                 // If the new content URI is null, then there was an error with insertion.
-                Toast.makeText(this, getString(R.string.editor_insert_product_failed),
-                        Toast.LENGTH_SHORT).show();
+                displayToast(getString(R.string.editor_insert_product_failed) ) ;
             } else {
                 // Otherwise, the insertion was successful and we can display a toast.
-                Toast.makeText(this, getString(R.string.editor_insert_product_successful),
-                        Toast.LENGTH_SHORT).show();
+                displayToast(getString(R.string.editor_insert_product_successful)) ;
             }
 
         } else {
@@ -567,6 +609,10 @@ public class DetailsActivity extends AppCompatActivity
         //Close the activity after deleting
         finish();
 
+    }
+
+    private void displayToast(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
 }

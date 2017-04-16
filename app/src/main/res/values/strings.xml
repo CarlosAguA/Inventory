@@ -90,6 +90,8 @@
 
     <string name="add_image">Add Photo</string>
 
+    <string name="denied_access_gallery">Not allowed to access gallery</string>
+
   <!-- Preview of the layout -->
     <string name="name_preview">Product´s name</string>
     <string name="price_preview">Product´s price</string>
