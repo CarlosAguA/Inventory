@@ -425,8 +425,8 @@ public class DetailsActivity extends AppCompatActivity
         String supplierPhone = mPhoneEditText.getText().toString().trim();
         String supplierEmail = mEmailEditText.getText().toString().trim();
         String supplierWebpage = mWebpageEditText.getText().toString().trim();
-
         String productImage ;
+
         if(imageUri != null){
 
              productImage = imageUri.toString();
@@ -442,7 +442,7 @@ public class DetailsActivity extends AppCompatActivity
         }
 
         if( TextUtils.isEmpty(footwearName) ){
-            displayToast("Name Field is required.");
+            displayToast(getString(R.string.input_validation_name));
             return;
         }
 
