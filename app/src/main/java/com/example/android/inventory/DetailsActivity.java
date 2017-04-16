@@ -34,6 +34,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.android.inventory.data.InventoryContract.footWearEntry;
 
+import static android.R.attr.name;
+
 
 public class DetailsActivity extends AppCompatActivity
        implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -41,7 +43,6 @@ public class DetailsActivity extends AppCompatActivity
     /**********************************************************************************************
      *                                     GLOBAL VARIABLES
      *********************************************************************************************/
-    public static final String LOG_TAG = DetailsActivity.class.getSimpleName();
 
     /* Loader ID for FOOTWEAR_LOADER */
     private static final int FOOTWEAR_LOADER = 0;
@@ -319,7 +320,6 @@ public class DetailsActivity extends AppCompatActivity
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
-            Log.v(LOG_TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
             //resume tasks needing this permission
             // permission was granted, yay! Do the
             // read-related task you need to do.
@@ -339,16 +339,14 @@ public class DetailsActivity extends AppCompatActivity
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
-                Log.v(LOG_TAG,"Permission is granted");
                 return true;
             } else {
-                Log.v(LOG_TAG,"Permission is revoked");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
                 return false;
             }
         }
-        else { //permission is automatically granted on sdk<23 upon installation
-            Log.v(LOG_TAG,"Permission is granted");
+        else {
+            //permission is automatically granted on sdk<23 upon installation
             return true;
         }
     }
@@ -449,6 +447,11 @@ public class DetailsActivity extends AppCompatActivity
             return;
         }
 
+        if( TextUtils.isEmpty(footwearName) ){
+            displayToast("Name Field is required.");
+            return;
+        }
+
         ContentValues values = new ContentValues();
         values.put(footWearEntry.COLUMN_FOOTWEAR_NAME, footwearName);
         values.put(footWearEntry.COLUMN_FOOTWEAR_PRICE, footwearPrice);
@@ -457,7 +460,7 @@ public class DetailsActivity extends AppCompatActivity
         values.put(footWearEntry.COLUMN_FOOTWEAR_SUPPLIER_WEBPAGE, supplierWebpage);
         values.put(footWearEntry.COLUMN_FOOTWEAR_IMAGE,productImage);
 
-        int quantity = 0;
+        int quantity = 1;
         if (!TextUtils.isEmpty(footwearQuantity)) {
             quantity = Integer.parseInt(footwearQuantity);
         }

@@ -23,9 +23,6 @@ public class InventoryProvider extends ContentProvider{
     /** URI matcher code for the content URI for a single product in the footwear table */
     private static final int FOOTWEAR_ID = 101;
 
-    /** Tag for the log messages */
-    public static final String LOG_TAG = InventoryProvider.class.getSimpleName();
-
     /**
      * UriMatcher object to match a content URI to a corresponding code.
      * The input passed into the constructor represents the code to return for the root URI.
