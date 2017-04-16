@@ -437,7 +437,6 @@ public class DetailsActivity extends AppCompatActivity
              productImage = imageUri.toString();
 
         }else{
-
             productImage = "android.resource://com.example.android.inventory/drawable/no_image_placeholder" ;
         }
 
